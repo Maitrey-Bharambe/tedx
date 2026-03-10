@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import RegisterModal from "@/components/RegisterModal";
 
 // ── Palette (pulled from reference image) ──────────────────────────────────────
 // Background:   #040202  (near-absolute black with red undertone)
@@ -162,6 +163,7 @@ export default function TEDxVITPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [activeIdx, setActiveIdx] = useState(null);
+  const [registerOpen, setRegisterOpen] = useState(false);
 
   const { scrollYProgress } = useScroll();
   const { scrollY } = useScroll();
@@ -372,19 +374,20 @@ export default function TEDxVITPage() {
               An evening where ideas move past language — into the still space
               where one consciousness genuinely meets another.
             </p>
-            <motion.a
-              href="#register"
+            <motion.button
+              onClick={() => setRegisterOpen(true)}
               className="shrink-0 border px-10 py-4 text-[11px] tracking-[0.28em] uppercase cursor-pointer"
               style={{
                 fontFamily: "sans-serif",
                 borderColor: C.redDeep,
                 color: C.textDim,
+                background: "transparent",
               }}
               whileHover={{ borderColor: C.red, color: C.red }}
               transition={{ duration: 0.2 }}
             >
               Reserve a Seat
-            </motion.a>
+            </motion.button>
           </motion.div>
         </div>
 
@@ -760,21 +763,27 @@ export default function TEDxVITPage() {
               when it happens
             </span>
           </h2>
-          <motion.a
-            href="#"
+          <motion.button
+            onClick={() => setRegisterOpen(true)}
             className="inline-block border px-14 py-4 text-[11px] tracking-[0.3em] uppercase cursor-pointer"
             style={{
               fontFamily: "sans-serif",
               borderColor: C.redDeep,
               color: C.textDim,
+              background: "transparent",
             }}
             whileHover={{ borderColor: C.red, color: C.red }}
             transition={{ duration: 0.2 }}
           >
             Register Now
-          </motion.a>
+          </motion.button>
         </Reveal>
       </section>
+
+      <RegisterModal
+        open={registerOpen}
+        onClose={() => setRegisterOpen(false)}
+      />
 
       {/* ── FOOTER ── */}
       <footer
